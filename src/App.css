@@ -1,0 +1,253 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3rem;
+  text-align: center;
+  background-color: #e0e0e0; /* A light grey background */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 0 30px rgba(0, 0, 0, 0.05); /* Soft outer and inner shadow */
+  position: relative; /* Needed for pseudo-elements for torn edges */
+  overflow: hidden; /* Hide overflowing pseudo-elements */
+}
+
+/* Torn paper effect - top and bottom */
+#root::before,
+#root::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 15px; /* Height of the torn edge */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+#root::before {
+  top: 0;
+  transform: translateY(-50%) rotate(0.5deg); /* Slight rotation for natural tear */
+}
+
+#root::after {
+  bottom: 0;
+  transform: translateY(50%) rotate(-0.5deg); /* Slight rotation for natural tear */
+}
+
+.card {
+  padding: 3em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.main-nav {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 60px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  justify-content: center;
+}
+
+.main-nav a {
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.main-nav a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.welcome-heading {
+  font-size: 2.5em;
+  color: var(--primary-color);
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.shloka-form-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  border: 1px solid #e0e0e0;
+}
+
+.shloka-form-container h2 {
+  color: #5d4037; /* Darker brown for heading */
+  margin-bottom: 25px;
+  font-size: 2.2em;
+  font-family: 'Playfair Display', serif; /* A more elegant font */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #795548; /* Medium brown for labels */
+  text-align: left;
+  font-size: 1.1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+  width: calc(100% - 20px); /* Adjust for padding */
+  padding: 12px;
+  border: 1px solid #d7ccc8; /* Lighter brown border */
+  border-radius: 6px;
+  font-size: 1em;
+  background-color: cadetblue; /* Cadetblue background for inputs */
+  color: #4e342e; /* Dark brown text */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group textarea:focus {
+  border-color: #a1887f; /* Focus border color */
+  box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.2); /* Soft focus glow */
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.shloka-form-container button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px; /* Pill-shaped buttons */
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shloka-form-container button[type="submit"] {
+  background-color: #8d6e63; /* Muted brown */
+  color: white;
+}
+
+.shloka-form-container button[type="submit"]:hover {
+  background-color: #6d4c41; /* Darker brown on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.shloka-form-container .clear-button {
+  background-color: #bcaaa4; /* Lighter grey-brown */
+  color: white;
+}
+
+.shloka-form-container .clear-button:hover {
+  background-color: #8d6e63; /* Muted brown on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.shloka-text {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 2em; /* Adjust as needed */
+  line-height: 1.5;
+  text-align: center;
+  color: #333; /* Dark color for the shloka text */
+  background-color: #f8f0e3; /* Light background similar to the image */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shloka-text {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #333;
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .shloka-form-container {
+    padding: 15px;
+  }
+
+  .shloka-form-container h2 {
+    font-size: 1.8em;
+  }
+
+  .form-group label {
+    font-size: 1em;
+  }
+
+  .shloka-viewer-container h2 {
+    font-size: 1.8em; /* Adjust heading size for mobile */
+  }
+
+  .shloka-text {
+    font-size: 1.5em; /* Adjust shloka text size for mobile */
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="date"],
+  .form-group textarea {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .shloka-form-container button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+  }
+
+  .welcome-heading {
+    font-size: 2em;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .main-nav a {
+    text-align: center;
+  }
+}
