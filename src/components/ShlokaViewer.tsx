@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { database } from '../firebase';
+import { ref, onValue } from 'firebase/database';
 
 interface Shloka {
+  id: string;
   shloka: string;
   meaning: string;
   date: string;
@@ -14,56 +17,29 @@ const ShlokaViewer: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchShlokas = async () => {
-      const SPREADSHEET_ID = '1dEAZXY7BGuTGmoU_x-XC7VtoPuXxx0OrPYpDqFz7CSw';
-      const sheetName = 'Shlokas';
-      const API_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
+    const shlokasRef = ref(database, 'shlokas');
+    const unsubscribe = onValue(shlokasRef, (snapshot) => {
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const data = snapshot.val();
+        const fetchedShlokas: Shloka[] = [];
+        if (data) { // Check if data is not null
+          for (let key in data) {
+            fetchedShlokas.push({
+              ...data[key],
+              id: key // Store the Firebase key
+            });
+          }
         }
-        const text = await response.text();
-        const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-        const data = JSON.parse(jsonString);
-
-        if (data.table && data.table.rows) {
-          const fetchedShlokas: Shloka[] = data.table.rows.map((row: any) => {
-            let rawDate = row.c[2]?.v || "";
-            let formattedDate = rawDate;
-
-            // 👉 Parse Date(YYYY,MM,DD) format
-            const dateMatch = /^Date\((\d+),(\d+),(\d+)\)$/.exec(rawDate);
-            if (dateMatch) {
-              const year = parseInt(dateMatch[1], 10);
-              const month = parseInt(dateMatch[2], 10) + 1; // month is 0-indexed
-              const day = parseInt(dateMatch[3], 10);
-              formattedDate = `${day.toString().padStart(2, "0")}-${month
-                .toString()
-                .padStart(2, "0")}-${year}`;
-            }
-
-            return {
-              shloka: row.c[0]?.v || "",
-              meaning: row.c[1]?.v || "",
-              date: formattedDate,
-              source: row.c[3]?.v || "",
-              comment: row.c[4]?.v || "",
-            };
-          });
-          setShlokas(fetchedShlokas);
-        } else {
-          setShlokas([]);
-        }
+        setShlokas(fetchedShlokas);
+        setLoading(false);
       } catch (e: any) {
         setError(`Failed to fetch shlokas: ${e.message}`);
-      } finally {
         setLoading(false);
       }
-    };
+    });
 
-    fetchShlokas();
+    // Cleanup function to unsubscribe from the listener when the component unmounts
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
@@ -76,7 +52,7 @@ const ShlokaViewer: React.FC = () => {
 
   return (
     <div className="shloka-viewer-container">
-      <h2>📖 View Shlokas from Google Sheet</h2>
+      <h2>📖 View Shlokas from Firebase</h2>
       {shlokas.length === 0 && !loading && !error && (
         <p>No shlokas found. Add new shloka.</p>
       )}

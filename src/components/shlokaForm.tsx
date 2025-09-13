@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import { database } from '../firebase';
+import { ref, push } from 'firebase/database';
 
 interface ShlokaData {
   shloka: string;
@@ -18,9 +20,6 @@ const ShlokaForm: React.FC = () => {
     comment: ""
   });
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbylYV1HT_wTHUB7ZYNsfkWKhVDbhMVIX8V7LWHCpLe7GxXUA90iV5ctJPldO91w_89N-Q/exec";
-
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -30,31 +29,18 @@ const ShlokaForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8" // 👈 magic line
-        },
-        body: JSON.stringify(formData)
+      await push(ref(database, 'shlokas'), formData);
+      alert("✅ Shloka saved successfully!");
+      setFormData({
+        shloka: "",
+        meaning: "",
+        date: "",
+        source: "",
+        comment: ""
       });
-
-      const result = await response.json();
-      console.log("Response from Google Sheets:", result);
-
-      if (result.status === "success") {
-        alert("✅ Shloka saved successfully!");
-        setFormData({
-          shloka: "",
-          meaning: "",
-          date: "",
-          source: "",
-          comment: ""
-        });
-      } else {
-        alert("⚠️ Failed to save. Try again.");
-      }
     } catch (error) {
       console.error("Error:", error);
+      console.error("Error saving shloka:", error); // Log the error
       alert("❌ Error while saving. Check console.");
     }
   };
