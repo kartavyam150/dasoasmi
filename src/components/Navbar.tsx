@@ -1,21 +1,22 @@
 import React from 'react';
-import './Navbar.css'; // Assuming we'll create this CSS file
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-nav">
-        <a href="/">Dasoasmi</a>
+        <Link to="/">Dasoasmi</Link>
       </div>
       <ul className="navbar-nav">
         <li className="nav-item">
-          <a href="/add-shloka">Add shloka</a>
+          <Link to="/add-shloka">Add shloka</Link>
         </li>
         <li className="nav-item">
-          <a href="/view-shlokas">View All</a>
+          <Link to="/view-shlokas">View All</Link>
         </li>
         <li className="nav-item">
-          <a href="/about">About</a>
+          <Link to="/about">About</Link>
         </li>
       </ul>
     </nav>
