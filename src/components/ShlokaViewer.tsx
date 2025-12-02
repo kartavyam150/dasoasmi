@@ -52,7 +52,7 @@ const ShlokaViewer: React.FC = () => {
 
   return (
     <div className="shloka-viewer-container">
-      <h2>📖 View Shlokas from Firebase</h2>
+      <h2>📖 View Shlokas</h2>
       {shlokas.length === 0 && !loading && !error && (
         <p>No shlokas found. Add new shloka.</p>
       )}
