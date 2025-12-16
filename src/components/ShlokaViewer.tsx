@@ -9,6 +9,7 @@ interface Shloka {
   date: string;
   source: string;
   comment: string;
+  uvaca: string;
 }
 
 const ShlokaViewer: React.FC = () => {
@@ -52,7 +53,7 @@ const ShlokaViewer: React.FC = () => {
 
   return (
     <div className="shloka-viewer-container">
-      <h2>📖 View Shlokas</h2>
+      <h2>📖 View Shlokas 📖</h2>
       {shlokas.length === 0 && !loading && !error && (
         <p>No shlokas found. Add new shloka.</p>
       )}
@@ -80,10 +81,11 @@ const ShlokaViewer: React.FC = () => {
                   ));
                 })()}
               </h3>
-              <p><strong>Meaning:</strong> {shloka.meaning}</p>
-              <p><strong>Date:</strong> {shloka.date}</p>
-              <p><strong>Source:</strong> {shloka.source}</p>
-              <p><strong>Comment:</strong> {shloka.comment}</p>
+              {shloka.uvaca && <p><strong>Uvaca:</strong> {shloka.uvaca}</p>}
+              {shloka.meaning && <p><strong>Meaning:</strong> {shloka.meaning}</p>}
+              {shloka.date && <p><strong>Date:</strong> {shloka.date}</p>}
+              {shloka.source && <p><strong>Source:</strong> {shloka.source}</p>}
+              {shloka.comment && <p><strong>Comment:</strong> {shloka.comment}</p>}
             </div>
           ))}
         </div>

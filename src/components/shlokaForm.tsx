@@ -9,6 +9,7 @@ interface ShlokaData {
   date: string;
   source: string;
   comment: string;
+  uvaca: string;
 }
 
 const ShlokaForm: React.FC = () => {
@@ -17,7 +18,8 @@ const ShlokaForm: React.FC = () => {
     meaning: "",
     date: "",
     source: "",
-    comment: ""
+    comment: "",
+    uvaca: ""
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,7 +38,8 @@ const ShlokaForm: React.FC = () => {
         meaning: "",
         date: "",
         source: "",
-        comment: ""
+        comment: "",
+        uvaca: ""
       });
     } catch (error) {
       console.error("Error:", error);
@@ -49,6 +52,18 @@ const ShlokaForm: React.FC = () => {
     <div className="shloka-form-container">
       <h2>📜 Add New Shloka</h2>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="uvaca"> Uvaca:</label>
+          <textarea
+            id="uvaca"
+            name="uvaca"
+            value={formData.uvaca}
+            onChange={handleChange}
+            rows={3}
+            placeholder="uvaca"
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="shloka">🕉️ Shloka:</label>
           <textarea
@@ -111,7 +126,7 @@ const ShlokaForm: React.FC = () => {
           <button type="submit">
             🚀 Submit
           </button>
-          <button type="button" onClick={() => setFormData({ shloka: "", meaning: "", date: "", source: "", comment: "" })} className="clear-button">
+          <button type="button" onClick={() => setFormData({ shloka: "", meaning: "", date: "", source: "", comment: "", uvaca: "" })} className="clear-button">
             🗑️ Clear Form
           </button>
         </div>
